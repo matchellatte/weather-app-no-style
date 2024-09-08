@@ -1,20 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, Text, SafeAreaView } from 'react-native';
+import CitySelector from './CitySelector';
+import WeatherInfo from './WeatherInfo';
 
-export default function App() {
+const App = () => {
+  // List of cities and weather data
+  const [cities] = useState([
+    { name: 'New York', weather: 'Sunny, 25°C' },
+    { name: 'Tokyo', weather: 'Cloudy, 20°C' },
+    { name: 'London', weather: 'Rainy, 15°C' },
+    { name: 'Paris', weather: 'Windy, 18°C' },
+    { name: 'Sydney', weather: 'Sunny, 27°C' }
+  ]);
+
+  // State to keep track of the currently selected city
+  const [selectedCity, setSelectedCity] = useState(null);
+
+  // Function to handle city selection
+  const handleCityClick = (city) => {
+    setSelectedCity(city); // Update the selected city
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <SafeAreaView>
+      <ScrollView>
+        <View>
+          {/* Title */}
+          <Text>City Weather Information</Text>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+          {/* Render CitySelector and pass the list of cities and the click handler */}
+          <CitySelector cities={cities} onCityClick={handleCityClick} />
+
+          {/* Conditionally render WeatherInfo when a city is selected */}
+          {selectedCity && (
+            <WeatherInfo city={selectedCity.name} weather={selectedCity.weather} />
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+export default App;
