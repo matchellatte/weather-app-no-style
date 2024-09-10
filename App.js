@@ -1,42 +1,30 @@
 import React, { useState } from 'react';
-import { View, ScrollView, Text, SafeAreaView } from 'react-native';
-import CitySelector from './CitySelector';
-import WeatherInfo from './WeatherInfo';
+import { SafeAreaView, Text } from 'react-native';
+import CitySelector from './CitySelector'; // default export
+import { WeatherInfo } from './WeatherInfo'; // named export
 
 const App = () => {
-  // List of cities and weather data
-  const [cities] = useState([
-    { name: 'New York', weather: 'Sunny, 25°C' },
-    { name: 'Tokyo', weather: 'Cloudy, 20°C' },
-    { name: 'London', weather: 'Rainy, 15°C' },
-    { name: 'Paris', weather: 'Windy, 18°C' },
-    { name: 'Sydney', weather: 'Sunny, 27°C' }
-  ]);
 
-  // State to keep track of the currently selected city
-  const [selectedCity, setSelectedCity] = useState(null);
-
-  // Function to handle city selection
-  const handleCityClick = (city) => {
-    setSelectedCity(city); // Update the selected city
-  };
+  // 1. Should contain the list of cities as a state - 2 points
+  const [cities] = useState(['Manila', 'Cebu', 'Davao']);
+  
+  // 4. Should pass the selected city and a function to update the selected city as props to CitySelector - 3 points
+  const [selectedCity, setSelectedCity] = useState('');
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View>
-          {/* Title */}
-          <Text>City Weather Information</Text>
-
-          {/* Render CitySelector and pass the list of cities and the click handler */}
-          <CitySelector cities={cities} onCityClick={handleCityClick} />
-
-          {/* Conditionally render WeatherInfo when a city is selected */}
-          {selectedCity && (
-            <WeatherInfo city={selectedCity.name} weather={selectedCity.weather} />
-          )}
-        </View>
-      </ScrollView>
+      <Text>WEATHER INFORMATION - Grechelle Ann Boneo</Text>
+      {/* 2. Should display a CitySelector component - 3 points */}
+      <CitySelector cities={cities} selectedCity={selectedCity} setSelectedCity={setSelectedCity} />
+      
+      {/* 3. Conditional rendering based on selectedCity */}
+      {selectedCity ? (
+        // 3. Should display a Weather info component based on the selected city - 3 points
+        <WeatherInfo selectedCity={selectedCity} />
+      ) : (
+        // Show message when no city is selected
+        <Text>Please select a city to view the weather information.</Text>
+      )}
     </SafeAreaView>
   );
 };
